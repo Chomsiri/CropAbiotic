@@ -22,38 +22,65 @@ colnames(IronUV)
     ggplot(data = Submergence,
            aes(y = Height, x = Genotype, fill = Treatment,
                group = interaction(Genotype, Treatment))) +
-      geom_boxplot() +
-      facet_grid(~DATrt)
+      geom_boxplot() + 
+      facet_grid(~DATrt) + 
+      ggtitle("The hight differences between IR64 and IR64 Sub1 with two treatments in different time periods")
+
+ggplot(data = Submergence,
+       aes(y = Height, x = Treatment, fill = Genotype,
+           group = interaction(Genotype, Treatment))) +
+  geom_boxplot() + 
+  facet_grid(~DATrt) + 
+  ggtitle("The hight differences between Treatments with IR64 and IR64 in different time periods")
+
                
     ggplot(data = Submergence,
            aes(y = Tillers_number, x = Genotype, fill = Treatment,
                group = interaction(Genotype, Treatment))) +
       geom_boxplot() +
-      facet_grid(~DATrt)
+      facet_grid(~DATrt) + 
+      ggtitle("The difference in number of Tillers between IR64 and IR64 Sub1 
+              with two treatments in different time periods")
 
-    ggplot(data = Submergence,
-           aes(y = Chl, x = Genotype, fill = Treatment,
-               group = interaction(Genotype, Treatment))) +
-      geom_boxplot() +
-      facet_grid(~DATrt)
     
-    ggplot(data = Submergence,
-           aes(y = Flav, x = Genotype, fill = Treatment,
+    #filter the data with dplyr
+    SubmergenceChl <- filter(Submergence, !is.na(Chl) | Chl != "")
+
+    ggplot(data = SubmergenceChl,
+           aes(y = Chl, x = Genotype, fill = Treatment, na.rm = TRUE,
                group = interaction(Genotype, Treatment))) +
-      geom_boxplot() +
-      facet_grid(~DATrt)
+      geom_boxplot(na.rm = TRUE) +
+      facet_grid(~DATrt) +
+      ggtitle("The difference in Chlorophyll value between IR64 and IR64 Sub1 
+              with two treatments in different time periods")
     
-    ggplot(data = Submergence,
+    SubmergenceFlav <- filter(Submergence, !is.na(Flav) | Flav != "")
+    
+    ggplot(data = SubmergenceFlav,
+           aes(y = Flav, x = Genotype, fill = Treatment, na.rm = TRUE,
+               group = interaction(Genotype, Treatment))) +
+      geom_boxplot(na.rm = TRUE) +
+      facet_grid(~DATrt) +
+      ggtitle("The difference in Flavonoid value between IR64 and IR64 Sub1 
+              with two treatments in different time periods")
+    
+    SubmergenceNBI <- filter(Submergence, !is.na(NBI) | NBI != "")
+    ggplot(data = SubmergenceNBI,
            aes(y = NBI, x = Genotype, fill = Treatment,
                group = interaction(Genotype, Treatment))) +
       geom_boxplot() +
-      facet_grid(~DATrt)
+      facet_grid(~DATrt) +
+      ggtitle("The difference in Nitrogen balance index between IR64 and IR64 Sub1 
+              with two treatments in different time periods")
     
-    ggplot(data = Submergence,
+    SubmergenceSPAD <- filter(Submergence, !is.na(SPAD) | SPAD != "")
+    ggplot(data = SubmergenceSPAD,
            aes(y = SPAD, x = Genotype, fill = Treatment,
                group = interaction(Genotype, Treatment))) +
       geom_boxplot() +
-      facet_grid(~DATrt)
+      facet_grid(~DATrt) +
+    ggtitle("The difference in SPAD between IR64 and IR64 Sub1 
+              with two treatments in different time periods")
     
     #Date of treatment Iron####
     ggplot(data = Iron,
@@ -71,6 +98,7 @@ colnames(IronUV)
                group = interaction(Genotype, Treatment))) +
       geom_boxplot() +
       facet_grid(~DATrt)
+    
     ggplot(data = Iron,
            aes(y = Chl, x = Genotype, fill = Treatment,
                group = interaction(Genotype, Treatment))) +
@@ -147,5 +175,7 @@ colnames(IronUV)
                y = Bronze_Score 
             )) + 
       geom_point() +
-      geom_smooth(method = "glm")
+      geom_smooth(method = "glm") +
+      ggtitle("The correlation between SPAD and Bronzing score")
+    
     
